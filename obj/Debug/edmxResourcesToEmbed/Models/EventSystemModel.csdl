@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="EventSystemModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="EventSystemModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="EventSystemModel.Customer" />
+    <EntitySet Name="Events" EntityType="EventSystemModel.Event" />
+    <EntitySet Name="Friends" EntityType="EventSystemModel.Friend" />
+    <EntitySet Name="Bookings" EntityType="EventSystemModel.Booking" />
+    <AssociationSet Name="CustomerEvent" Association="EventSystemModel.CustomerEvent">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Event" EntitySet="Events" />
+    </AssociationSet>
+    <AssociationSet Name="CustomerBooking" Association="EventSystemModel.CustomerBooking">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Booking" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="EventBooking" Association="EventSystemModel.EventBooking">
+      <End Role="Event" EntitySet="Events" />
+      <End Role="Booking" EntitySet="Bookings" />
+    </AssociationSet>
+    <AssociationSet Name="CustomerFriend" Association="EventSystemModel.CustomerFriend">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Friend" EntitySet="Friends" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustId" />
+    </Key>
+    <Property Name="CustId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Email" Type="String" Nullable="false" />
+    <Property Name="Password" Type="String" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" Nullable="false" />
+    <Property Name="DateOfBirth" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="Events" Relationship="EventSystemModel.CustomerEvent" FromRole="Customer" ToRole="Event" />
+    <NavigationProperty Name="Bookings" Relationship="EventSystemModel.CustomerBooking" FromRole="Customer" ToRole="Booking" />
+    <NavigationProperty Name="Friends" Relationship="EventSystemModel.CustomerFriend" FromRole="Customer" ToRole="Friend" />
+  </EntityType>
+  <EntityType Name="Event">
+    <Key>
+      <PropertyRef Name="EventId" />
+    </Key>
+    <Property Name="EventId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EventName" Type="String" Nullable="false" />
+    <Property Name="Description" Type="String" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" />
+    <Property Name="Rating" Type="Decimal" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" />
+    <Property Name="Latitude" Type="Decimal" Nullable="false" />
+    <Property Name="Longitude" Type="Decimal" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="EventSystemModel.CustomerEvent" FromRole="Event" ToRole="Customer" />
+    <Property Name="CustomerCustId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Bookings" Relationship="EventSystemModel.EventBooking" FromRole="Event" ToRole="Booking" />
+  </EntityType>
+  <EntityType Name="Friend">
+    <Key>
+      <PropertyRef Name="FriendId" />
+    </Key>
+    <Property Name="FriendId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" />
+    <Property Name="Email" Type="String" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="EventSystemModel.CustomerFriend" FromRole="Friend" ToRole="Customer" />
+    <Property Name="CustomerCustId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Booking">
+    <Key>
+      <PropertyRef Name="BookingId" />
+    </Key>
+    <Property Name="BookingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BookingStatus" Type="String" Nullable="false" />
+    <NavigationProperty Name="Customer" Relationship="EventSystemModel.CustomerBooking" FromRole="Booking" ToRole="Customer" />
+    <Property Name="CustomerCustId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Event" Relationship="EventSystemModel.EventBooking" FromRole="Booking" ToRole="Event" />
+    <Property Name="EventEventId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="CustomerEvent">
+    <End Type="EventSystemModel.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="EventSystemModel.Event" Role="Event" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustId" />
+      </Principal>
+      <Dependent Role="Event">
+        <PropertyRef Name="CustomerCustId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustomerBooking">
+    <End Type="EventSystemModel.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="EventSystemModel.Booking" Role="Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustId" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="CustomerCustId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EventBooking">
+    <End Type="EventSystemModel.Event" Role="Event" Multiplicity="1" />
+    <End Type="EventSystemModel.Booking" Role="Booking" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="EventId" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="EventEventId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustomerFriend">
+    <End Type="EventSystemModel.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="EventSystemModel.Friend" Role="Friend" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustId" />
+      </Principal>
+      <Dependent Role="Friend">
+        <PropertyRef Name="CustomerCustId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
