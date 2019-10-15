@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace FIT5032_Assignment_Portfolio_Final
 {
@@ -25,6 +24,13 @@ namespace FIT5032_Assignment_Portfolio_Final
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/mapbox").Include("~/Scripts/location.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                 "~/Scripts/bootstrap.js",
+                 "~/Scripts/respond.js"));
+
         }
     }
 }

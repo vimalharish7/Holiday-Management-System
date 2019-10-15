@@ -11,7 +11,8 @@ namespace FIT5032_Assignment_Portfolio_Final.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Event
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,12 +22,22 @@ namespace FIT5032_Assignment_Portfolio_Final.Models
         }
     
         public int EventId { get; set; }
+        [Required]
         public string EventName { get; set; }
         public string Description { get; set; }
+
+        [Required]       
+        [DisplayFormat(ApplyFormatInEditMode =true, DataFormatString = "{0:MM/dd/yyyy}")]
+
         public System.DateTime Date { get; set; }
+        [Required]
         public decimal Rating { get; set; }
+        [Required]
+        [Range(1, 1000.00, ErrorMessage = "Enter a Price than is greater than Zero")]
         public decimal Price { get; set; }
+        [Required]
         public decimal Latitude { get; set; }
+        [Required]
         public decimal Longitude { get; set; }
         public int CustomerCustId { get; set; }
     
@@ -34,4 +45,6 @@ namespace FIT5032_Assignment_Portfolio_Final.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Bookings { get; set; }
     }
+
+
 }

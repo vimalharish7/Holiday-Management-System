@@ -11,7 +11,8 @@ namespace FIT5032_Assignment_Portfolio_Final.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Customer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,10 +24,18 @@ namespace FIT5032_Assignment_Portfolio_Final.Models
         }
     
         public int CustId { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
+        [Required]
         public string Password { get; set; }
+        [Required]
+
         public string PhoneNumber { get; set; }
+        [Required(ErrorMessage = "Enter a Valid Date Of Birth, you must be over 18!")]
+        [MinimumAgeValidation(18)]
         public System.DateTime DateOfBirth { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -35,5 +44,23 @@ namespace FIT5032_Assignment_Portfolio_Final.Models
         public virtual ICollection<Booking> Bookings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Friend> Friends { get; set; }
+    }
+
+    public class MinimumAgeValidation : ValidationAttribute
+    {
+        int TempMinimumAge;
+        public MinimumAgeValidation (int MinAge)
+        {
+            TempMinimumAge = MinAge;
+        }
+        public override bool IsValid(object value)
+        {
+            DateTime CheckDate;
+            if(DateTime.TryParse(value.ToString(), out CheckDate))
+            {
+                return CheckDate.AddYears(TempMinimumAge) < DateTime.Now;
+            }
+            return false;
+        }
     }
 }

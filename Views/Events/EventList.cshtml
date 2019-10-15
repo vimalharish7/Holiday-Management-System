@@ -1,0 +1,80 @@
+﻿@model IEnumerable<FIT5032_Assignment_Portfolio_Final.Models.Event>
+
+@{
+    ViewBag.Title = "EventList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List of Events Available</h2>
+
+@Html.ActionLink("Download as PDF", "Reports", new { ReportType="PDF"})
+<br/>
+<br/>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EventName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rating)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Latitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Longitude)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.Name)
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("Send Email to Friend", "Send_Email")
+</div>
+
+<div>
+    @Html.ActionLink("Back to Home", "Index")
+</div>

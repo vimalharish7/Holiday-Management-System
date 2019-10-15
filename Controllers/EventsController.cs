@@ -1,15 +1,18 @@
-﻿using System;
+﻿using FIT5032_Assignment_Portfolio_Final.Models;
+using System;
+using FIT5032_Assignment_Portfolio_Final.Utils;
 using System.Collections.Generic;
-using System.Data;
+using System.Web;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using FIT5032_Assignment_Portfolio_Final.Models;
+using Microsoft.Reporting.WebForms;
+using System.Net.Mail;
 
 namespace FIT5032_Assignment_Portfolio_Final.Controllers
 {
+    [Authorize]
     public class EventsController : Controller
     {
         private EventSystemModelContainer db = new EventSystemModelContainer();
@@ -36,6 +39,7 @@ namespace FIT5032_Assignment_Portfolio_Final.Controllers
             return View(@event);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Events/Create
         public ActionResult Create()
         {
@@ -61,6 +65,7 @@ namespace FIT5032_Assignment_Portfolio_Final.Controllers
             return View(@event);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Events/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -86,7 +91,7 @@ namespace FIT5032_Assignment_Portfolio_Final.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(@event).State = EntityState.Modified;
+                //db.Entry(@event).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -94,6 +99,7 @@ namespace FIT5032_Assignment_Portfolio_Final.Controllers
             return View(@event);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Events/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -118,6 +124,86 @@ namespace FIT5032_Assignment_Portfolio_Final.Controllers
             db.Events.Remove(@event);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Book(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Event @event = db.Events.Find(id);
+            if (@event == null)
+            {
+                return HttpNotFound();
+            }
+            return View(@event);
+        }
+
+        public ActionResult EventList()
+        {
+            return View(db.Events.ToList());
+        }
+
+        public ActionResult Reports(string ReportType)
+        {
+            LocalReport reporting = new LocalReport();
+            
+            reporting.ReportPath = Server.MapPath("~/Reports/EventReport.rdlc");
+            ReportDataSource reportDS = new ReportDataSource();
+            reportDS.Name = "EventDataSet";
+            reportDS.Value = db.Events.ToList();
+            reporting.DataSources.Add(reportDS);
+            string reportType = ReportType;
+            string FileNameExtension;
+            if (reportType == "PDF")
+            {             
+                FileNameExtension = "pdf";
+            }
+            string[] streams;
+            Warning[] warnings;
+            byte[] renderedByte;
+            string mimeType;
+            string encoding;
+            renderedByte = reporting.Render(reportType, "", out mimeType, out encoding, out FileNameExtension, out streams, out warnings);
+            Response.AddHeader("content-disposition","attachment;filename= event_report." + FileNameExtension);
+            return File(renderedByte,FileNameExtension);
+            
+        }
+
+        public ActionResult Send_Email()
+        {
+            return View(new SendEmailViewModel());
+        }
+
+        [HttpPost]
+        public ActionResult Send_Email(SendEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    String toEmail = model.ToEmail;
+                    String subject = model.Subject;
+                    String contents = model.Contents;
+                    
+
+                    EmailSender es = new EmailSender();
+                    es.Send(toEmail, subject, contents);
+
+                    ViewBag.Result = "Email has been send.";
+
+                    ModelState.Clear();
+
+                    return View(new SendEmailViewModel());
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+
+            return View();
         }
 
         protected override void Dispose(bool disposing)

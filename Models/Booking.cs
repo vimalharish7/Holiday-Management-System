@@ -22,4 +22,6 @@ namespace FIT5032_Assignment_Portfolio_Final.Models
         public virtual Customer Customer { get; set; }
         public virtual Event Event { get; set; }
     }
+
+
 }

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using FIT5032_Assignment_Portfolio_Final.Models;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using FIT5032_Assignment_Portfolio_Final.Models;
 
 namespace FIT5032_Assignment_Portfolio_Final.Controllers
 {
+    [Authorize]
     public class CustomersController : Controller
     {
         private EventSystemModelContainer db = new EventSystemModelContainer();
@@ -35,6 +31,7 @@ namespace FIT5032_Assignment_Portfolio_Final.Controllers
             return View(customer);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Customers/Create
         public ActionResult Create()
         {
@@ -58,6 +55,7 @@ namespace FIT5032_Assignment_Portfolio_Final.Controllers
             return View(customer);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Customers/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -82,13 +80,14 @@ namespace FIT5032_Assignment_Portfolio_Final.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(customer).State = EntityState.Modified;
+                //db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(customer);
         }
 
+        [Authorize(Roles = "Administrator")]
         // GET: Customers/Delete/5
         public ActionResult Delete(int? id)
         {

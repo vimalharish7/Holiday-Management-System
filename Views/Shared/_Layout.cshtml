@@ -5,9 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Magnificent Melbourne Application</title>
     @Styles.Render("~/Content/css")
-    <link href="~/Content/style-sheet.css" rel="stylesheet" />
+    @Styles.Render("~/Content/bootstrap.css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/dataTables.bootstrap4.min.css")
+    @Styles.Render("~/Content/themes/base/jquery-ui.min.css")
+    @Styles.Render("~/Content/style-sheet.css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+
+    @* This is for the mapbox map. *@
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' rel='stylesheet' />
+    @*This is used for the Geocoding Mapbox API*@
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.min.js'></script>
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.2.0/mapbox-gl-geocoder.css' type='text/css' />
 
 </head>
 <body>
@@ -26,9 +38,13 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("View Events", "Index", "Events")</li>
+                        <li>@Html.ActionLink("Customer List", "Index", "Customers")</li>
+                        <li>@Html.ActionLink("Book Events", "Index", "Bookings")</li>
+                    }
 
-                    <li>@Html.ActionLink("Event List", "Index", "Events")</li>
-                    <li>@Html.ActionLink("Customer List", "Index", "Customers")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -43,8 +59,13 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/Scripts/jquery-3.3.1.js")
+    @Scripts.Render("~/Scripts/jquery.dataTables.min.js")
+    @Scripts.Render("~/Scripts/dataTables.bootstrap4.min.js")
+    @Scripts.Render("~/Scripts/jquery-ui-1.12.1.min.js")
+    @Scripts.Render("~/Scripts/project-script.js")
+    @Scripts.Render("~/Scripts/location.js")
     @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/Scripts/bootstrap-datepicker")
     @RenderSection("scripts", required: false)
 </body>
 </html>

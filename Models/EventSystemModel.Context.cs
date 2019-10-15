@@ -29,5 +29,11 @@ namespace FIT5032_Assignment_Portfolio_Final.Models
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<Friend> Friends { get; set; }
         public virtual DbSet<Booking> Bookings { get; set; }
+
+        internal object Entry(object @event)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

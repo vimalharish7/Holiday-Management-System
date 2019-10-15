@@ -32,7 +32,7 @@ h4 {
     height: 250px;
 }
 
-    .row-image strong {
+.row-image strong {
         position: absolute;
         left: 0;
         top: 0;
@@ -40,7 +40,7 @@ h4 {
         font-size: 24px;
         color: #fff;
         text-shadow: 1px 1px 4px #404040;
-    }
+  }
 
 .small_img {
     width: 200px;

@@ -1,11 +1,11 @@
-﻿using System;
+﻿using FIT5032_Assignment_Portfolio_Final.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using FIT5032_Assignment_Portfolio_Final.Models;
+using System;
 
 namespace FIT5032_Assignment_Portfolio_Final
 {
@@ -34,7 +34,7 @@ namespace FIT5032_Assignment_Portfolio_Final
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Enables the application to temporarily store user information when they are verifying the second factor in the two-factor authentication process.
@@ -58,11 +58,11 @@ namespace FIT5032_Assignment_Portfolio_Final
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "808332588351-id81r8bd6n5ktjfhh7rd9r9qs356nitu.apps.googleusercontent.com",
+                ClientSecret = "VkfIO9WzgTC-QJxuO8TqG5bX"
+            });
         }
     }
 }
