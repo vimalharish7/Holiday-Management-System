@@ -1,0 +1,5 @@
+# FIT5032_Assignment_Portfolio
+FIT5032 - Internet Applications Development.
+Assignment Portfolio Task.
+Run the index.cshtml file in the path View -> Home folder, to run the application.
+Built using Visual Studio 2019 Edition.
