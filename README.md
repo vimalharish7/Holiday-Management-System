@@ -1,5 +1,8 @@
-# FIT5032_Assignment_Portfolio
-FIT5032 - Internet Applications Development.
-Assignment Portfolio Task.
-Run the index.cshtml file in the path View -> Home folder, to run the application.
-Built using Visual Studio 2019 Edition.
+# .Net based Application to plan and share events
+ .Net MVC - C# based application
+ 
+1. The application can be used to view and plan holiday activities 
+2. Further, the application allows users to share planned events
+3. Developed using the MVC - Entity Framework
+4. HTML/CSS and JavaScript have been used to develop the front end
+5. Backend database built on MySQL
