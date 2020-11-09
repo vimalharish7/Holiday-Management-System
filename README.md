@@ -1,4 +1,4 @@
-# .Net based Application to plan and share events
+# .Net based Application to register, view, book and share events
  .Net MVC - C# based application
  
 1. The application can be used to view and plan holiday activities 
